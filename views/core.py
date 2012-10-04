@@ -8,7 +8,6 @@ from forms.login import LoginForm
 class IndexHandler(ViewHandler):
     tpl = 'index.html'
 
-    @web.authenticated
     def get(self):
         self.render(self.tpl, **{
             })

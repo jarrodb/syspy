@@ -12,8 +12,8 @@ from settings import settings
 class BaseHandler(tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler,self).__init__(*args, **kwargs)
-        self.conn = self.application.settings.get('connection')
-        self.db = self.conn[settings.mongo_dbname]
+        #self.conn = self.application.settings.get('connection')
+        #self.db = self.conn[settings.mongo_dbname]
         self._httplib = httplib
 
     def get_current_user(self):

@@ -1,7 +1,6 @@
 # URL Routes
 from tornado.web import URLSpec, StaticFileHandler
 from settings import settings
-import modules
 import views
 import api
 
@@ -11,10 +10,7 @@ routes = [
 
 # API Routes
 routes.extend([
-    ])
-
-# Admin
-routes.extend([
+    URLSpec(r"/api/1/stdlib/([a-zA-Z]+)", api.std.StdHandler),
     ])
 
 # Static files
