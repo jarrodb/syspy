@@ -1,0 +1,12 @@
+# rename this file to settings_prod.py for local overrides
+
+settings = dict(
+    debug = False,
+    cookie_secret = '',
+    sql_host = '',
+    sql_engn = 'mysql',
+    sql_user = '',
+    sql_pass = '',
+    sql_dbnm = '',
+)
+

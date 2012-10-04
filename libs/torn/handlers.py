@@ -5,34 +5,32 @@ import tornado.web
 import os
 from hashlib import md5
 from datetime import datetime, date
+
+from sqlalchemy.orm import scoped_session, sessionmaker
 from mongokit import ObjectId
+
+from models.auth import Auth
 from settings import settings
 
 
 class BaseHandler(tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler,self).__init__(*args, **kwargs)
-        #self.conn = self.application.settings.get('connection')
-        #self.db = self.conn[settings.mongo_dbname]
+        self.engine = self.application.settings.get('engine')
+        self.db = scoped_session(sessionmaker(bind=self.engine))
         self._httplib = httplib
 
     def get_current_user(self):
         try:
-            _u = json.loads(self.get_secure_cookie('authed_user'))
+            token = self.request.headers.get('Token')
+            secret = self.request.headers.get('Secret')
             # query memcache here
-            return self.conn.User.find_one({'_id':ObjectId(_u['user'])})
+            return self.db.query(Auth).filter_by(
+                token=token,
+                secret=secret
+                ).one()
         except:
             return None
-
-    def set_current_user(self, user):
-        self.set_secure_cookie(
-            'authed_user',
-            json.dumps({'user':str(user)}),
-            expires_days=3,
-            )
-
-    def clear_current_user(self):
-        self.set_secure_cookie('authed_user', '')
 
     def auth_user(self, email, passwd):
         _u = self.conn.User.find_one({

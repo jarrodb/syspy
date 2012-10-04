@@ -1,7 +1,6 @@
 from os import path
 from tornado.util import ObjectDict
 from libs import dependencies
-from models import register_models
 
 settings_ = dict(
     debug = True,
@@ -16,12 +15,7 @@ settings_ = dict(
     template_path = path.join(path.dirname(__file__), "tpl"),
 
     site_url = 'http://127.0.0.1:8888',
-    login_url = '/login',
-
-    mongo_server = 'localhost:27017',
-    mongo_dbname = 'site',
-    mongo_user = None,
-    mongo_pass = None,
+    login_url = '/',
 
     )
 
