@@ -17,7 +17,12 @@ settings_ = dict(
     site_url = 'http://127.0.0.1:8888',
     login_url = '/',
 
-    sql_engn = 'mysql',
+    sql_ngin = 'mysql',
+    api_ngin = 'postfix',
+
+    postfix_path = '',
+    postfix_uid = '',
+    postfix_gid = '',
     )
 
 # local overrides untracked by the project

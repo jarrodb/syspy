@@ -14,6 +14,7 @@ class Stdlib(Stdbase):
         self.STDLIB = {
             'mkdir': self._mkdir,
             'chown': self._chown,
+            'rmdir': self._rmdir,
         }
 
     def command(self, cmd, args=[]):
@@ -32,6 +33,13 @@ class Stdlib(Stdbase):
         _dir = args[0]
         if not _dir: raise Exception('dir must be specified')
         if os.path.exists(_dir): raise Exception('unable to create dir')
+
+        return self._system_call(cmd, args)
+
+    def _rmdir(self, cmd, args):
+        _dir = args[0]
+        if not _dir: raise Exception('dir must be specified')
+        if not os.path.exists(_dir): raise Exception('dir does not exist')
 
         return self._system_call(cmd, args)
 

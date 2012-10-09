@@ -12,6 +12,7 @@ routes = [
 routes.extend([
     URLSpec(r"/api/1/stdlib/([a-zA-Z]+)", api.std.StdHandler),
     URLSpec(r"/api/1/postfix/user", api.postfix.UserHandler),
+    URLSpec(r"/api/1/postfix/domain", api.postfix.DomainHandler),
     ])
 
 # Static files

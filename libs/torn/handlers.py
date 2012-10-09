@@ -17,7 +17,8 @@ class BaseHandler(tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler,self).__init__(*args, **kwargs)
         self.engine = self.application.settings.get('engine')
-        self.db = scoped_session(sessionmaker(bind=self.engine))
+        self.session = sessionmaker(bind=self.engine)
+        self.db = scoped_session(self.session)
         self._httplib = httplib
 
     def get_current_user(self):
@@ -76,6 +77,10 @@ class BaseHandler(tornado.web.RequestHandler):
         return super(BaseHandler, self).render_string(template_name, **kwdef)
 
     # private
+    def _validate_or_exception(self, form):
+        if not form.validate():
+            raise wtforms.validators.ValidationError('Invalid Form')
+
     def _get_remote_addr(self):
         remote_ip = self.request.headers.get('X-Forwarded-For', None)
         if not remote_ip:
@@ -88,10 +93,6 @@ class ViewHandler(BaseHandler):
     """
     def __init__(self, *args, **kwargs):
         super(ViewHandler,self).__init__(*args, **kwargs)
-
-    def _validate_or_exception(self, form):
-        if not form.validate():
-            raise wtforms.validators.ValidationError('Invalid Form')
 
     def _update_doc_from_form(self, doc, form, exclude=None):
         # exclude should be a list of strings that are form elements
@@ -137,4 +138,26 @@ class ApiHandler(BaseHandler):
             'error': error
             })
 
+    def _clean_rows(self, rows):
+        for row in rows:
+            self._clean_row(row)
+
+    def _clean_row(self, row):
+        for field in row.__dict__:
+            field_val = getattr(row, field)
+            if isinstance(field_val, datetime):
+                setattr(row, field, field_val.isoformat())
+
+    def _query_obj(self, model):
+        # query for the User model
+        return self.db.query(model)
+
+    def _dict_from_sql_rows(self, res):
+        return [self._row_dict(obj) for obj in res]
+
+    def _row_dict(self, row):
+        d = {}
+        for column in row.__table__.columns:
+            d[column.name] = getattr(row, column.name)
+        return d
 

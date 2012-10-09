@@ -2,7 +2,6 @@ from tornado import web, escape
 
 from libs.torn.handlers import ViewHandler
 from libs.torn.forms import TornadoMultiDict
-from forms.login import LoginForm
 
 
 class IndexHandler(ViewHandler):
@@ -18,22 +17,23 @@ class LoginHandler(ViewHandler):
 
     def get(self):
         self.render(self.tpl, **{
-            'loginform': LoginForm(),
             })
 
     def post(self):
         try:
-            loginform = LoginForm(TornadoMultiDict(self.request.arguments))
-            self._validate_or_exception(loginform)
-            user = self.auth_user(
-                loginform.username.data,
-                loginform.password.data
-                )
+            #loginform = LoginForm(TornadoMultiDict(self.request.arguments))
+            #self._validate_or_exception(loginform)
+            #user = self.auth_user(
+                #loginform.username.data,
+                #loginform.password.data
+                #)
+            pass
         except Exception, e:
-            self.render(self.tpl, **{
-                'error': e.message,
-                'loginform': loginform,
-                })
+            #self.render(self.tpl, **{
+                #'error': e.message,
+                #'loginform': loginform,
+                #})
+            pass
         else:
             self.set_current_user(str(user.get('_id')))
             self.redirect(self.reverse_url('index'))

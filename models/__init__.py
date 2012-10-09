@@ -7,7 +7,7 @@ import auth
 
 engine = create_engine(
     '%s://%s:%s@%s/%s' % (
-        settings.sql_engn,
+        settings.sql_ngin,
         settings.sql_user,
         settings.sql_pass,
         settings.sql_host,

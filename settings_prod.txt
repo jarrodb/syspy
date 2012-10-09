@@ -4,9 +4,11 @@ settings = dict(
     debug = False,
     cookie_secret = '',
     sql_host = '',
-    sql_engn = 'mysql',
+    sql_ngin = 'mysql',
     sql_user = '',
     sql_pass = '',
     sql_dbnm = '',
+
+    api_ngin = '',
 )
 
