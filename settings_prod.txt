@@ -1,14 +1,22 @@
-# rename this file to settings_prod.py for local overrides
-
 settings = dict(
     debug = False,
-    cookie_secret = '',
+    site_url = 'http://',
+
+    cookie_secret = "SET_THIS_HERE",
     sql_host = '',
     sql_ngin = 'mysql',
     sql_user = '',
     sql_pass = '',
     sql_dbnm = '',
 
-    api_ngin = '',
+    api_ngin = '', # engine to be used by API
+
+    sys_token = '', # stored in sql 'auth' table
+    sys_secret = '',
+    sys_apiver = '1',
+
+    postfix_path = '',
+    postfix_uid = 5000,
+    postfix_gid = 5000,
 )
 

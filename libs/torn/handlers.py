@@ -79,7 +79,7 @@ class BaseHandler(tornado.web.RequestHandler):
     # private
     def _validate_or_exception(self, form):
         if not form.validate():
-            raise wtforms.validators.ValidationError('Invalid Form')
+            raise wtforms.validators.ValidationError('invalid input')
 
     def _get_remote_addr(self):
         remote_ip = self.request.headers.get('X-Forwarded-For', None)
